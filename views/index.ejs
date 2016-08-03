@@ -29,7 +29,7 @@
     <div class="col-lg-1 form_alteracao">
       <button type="button" class="btn btn-default" ng-click="btncadastro()">Novo cadastro</button>
     </div>
-    <div class="col-lg-10 col-lg-offset-2" ng-if="selecionado" ng-class="{form_alteracao: selecionado}">
+    <div class="col-lg-10 col-lg-offset-2" ng-show="aparececad" ng-class="{form_alteracao: aparececad}">
       <form>
         <div class="col-lg-2">
           <input class="form-control" type="text" name="sistema" value="" placeholder="Sistema">

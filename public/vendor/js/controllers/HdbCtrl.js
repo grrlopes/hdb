@@ -16,11 +16,11 @@ app.controller("HdbCtrl", ["$scope","$http", function($scope, $http){
     });
   };
 
+  $scope.aparececad = false;
   $scope.btncadastro = function(){
-    var self = this;
-    $scope.aparececad = false;
+    $scope.classaparececad = true;
     $scope.aparececad = !$scope.aparececad;
-
+    console.log($scope.aparececad);
   };
 
   IndexaTabela();
