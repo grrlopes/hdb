@@ -1,0 +1,23 @@
+{
+  "name": "hdb",
+  "description": "Historico data base",
+  "version": "1.0.0",
+  "author": "Gabriel Lopes",
+  "email": "gabrielrrlopes@gmail.com",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "compression": "^1.6.1",
+    "cookie-parser": "^1.4.1",
+    "ejs": "^2.5.1",
+    "express": "^4.13.4",
+    "express-load": "^1.1.15",
+    "express-session": "^1.13.0",
+    "file-stream-rotator": "0.0.7",
+    "mongoose": "^4.4.4",
+    "morgan": "^1.6.1"
+  }
+}
