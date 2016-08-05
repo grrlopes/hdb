@@ -6,3 +6,25 @@
   margin-top: -15px;
   position: absolute;
 }
+
+.form_inputs {
+  margin-top: -15px;
+  margin-left: 300px;
+  position: absolute;
+  width: 800px;
+}
+
+.alturatabela {
+  height: 500px;
+  background: green;
+  overflow-y: scroll;
+}
+
+.marcador {
+  background-color: lightgrey;
+}
+
+.areatexto {
+  max-width: 246px;
+  height: auto;
+}

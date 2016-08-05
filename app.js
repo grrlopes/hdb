@@ -6,9 +6,15 @@ let bodyParser = require('body-parser');
 let cookieParser = require('cookie-parser');
 let session = require('express-session');
 let compression = require('compression');
+let mongoose = require('mongoose');
 let frotator = require('file-stream-rotator');
 let fs = require('fs');
 let app = express();
+mongoose.connect('mongodb://localhost/hdb', function(err){
+  if (err){
+    console.log('Erro ao conectar no mongodb: ' + err);
+  }
+});
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(compression());

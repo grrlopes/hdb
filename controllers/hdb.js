@@ -15,7 +15,30 @@ module.exports = function(app){
           res.send(data);
         }
       });
-    }
+    },
+
+    addcad: function(req, res){
+			var inserir = new comando(req.body);
+			inserir.save(function(err){
+				if(err){
+					console.error(err);
+				}
+        console.log(inserir);
+				res.sendStatus(200);
+			});
+		},
+
+    excluir: function(req, res){
+      console.log(req.body._id);
+			comando.remove({_id: req.body._id}, function(err){
+				if(err){
+					console.error(err);
+				}else{
+          res.sendStatus(200);
+        }
+
+			});
+		},
 
   }
 
