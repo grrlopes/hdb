@@ -1,17 +1,17 @@
 .tabelamargem {
-  margin-top: 20px;
+  margin-top: 5px;
 }
 
 .form_alteracao {
   margin-top: -15px;
-  position: absolute;
 }
 
 .form_inputs {
   margin-top: -15px;
-  margin-left: 300px;
-  position: absolute;
-  width: 800px;
+}
+
+.input_search {
+  margin-top: -15px;
 }
 
 .alturatabela {
@@ -27,4 +27,13 @@
 .areatexto {
   max-width: 246px;
   height: auto;
+}
+
+.brand {
+  font-size: 22px;
+  margin-left: 500px;
+  width: 300px;
+  position: absolute;
+  font-style: italic;
+  opacity: 0.3;
 }

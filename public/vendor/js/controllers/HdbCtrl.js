@@ -10,16 +10,19 @@ app.controller("HdbCtrl", ["$scope","$http", function($scope, $http){
     $scope.reordenacao = !$scope.reordenacao;
   };
 
-  $scope.checkselecionado = function($event, valores){
+  $scope.checkselecionado = function(valores){
     $event.stopPropagation();
     $scope.selecionado = valores.some(function(valor){
       return valor.selecionado;
     });
   };
 
-  $scope.TrMarcado = function($event, valor){
-    $event.stopPropagation();
+  $scope.TrMarcado = function(valores,valor){
     $scope.selecionado = valor.selecionado = !valor.selecionado;
+    valores.some(function(v){
+      console.log(v);
+    });
+    console.log($scope.);
   };
 
   $scope.aparececad = false;
@@ -57,10 +60,16 @@ app.controller("HdbCtrl", ["$scope","$http", function($scope, $http){
   };
 
   $scope.EditaRegistro = function(valor){
-    console.log(valor.sistema);
+    $scope.cadastro = valor;
+    this.cadastro = $scope.cadastro;
     $scope.sistema = valor.sistema;
     $scope.editar = !$scope.editar;
   };
+
+  $scope.set = function() {
+    $scope.widget = {casa: '323abc'};
+    this.widget.casa = $scope.widget.casa;
+}
 
   IndexaTabela();
 }]);
