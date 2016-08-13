@@ -8,13 +8,21 @@ module.exports = function(app){
     },
 
     indexatabela: function(req, res){
+      var size;
+      comando.count(function(err, data){
+        if(err){
+          console.log(err);
+        }
+          size = Math.ceil(data/10);
+          console.log(size);
+      });
       comando.find(function(error, data){
         if(error){
           console.error(error);
         }else{
           res.send(data);
         }
-      });
+      }).skip(0).limit(10);
     },
 
     addcad: function(req, res){
@@ -36,11 +44,9 @@ module.exports = function(app){
 				}else{
           res.sendStatus(200);
         }
-
 			});
 		},
 
   }
-
   return hdb_controller;
 }

@@ -18,11 +18,26 @@ app.controller("HdbCtrl", ["$scope","$http", function($scope, $http){
   };
 
   $scope.TrMarcado = function(valores,valor){
+    $scope.funcedit = valor;
+    $scope.valoresfuncedit = valores;
     $scope.selecionado = valor.selecionado = !valor.selecionado;
-    valores.some(function(v){
-      console.log(v);
+    var self = this;
+    self.selecao = true;
+    self.tamanho = 0;
+    valores.filter(function(v){
+      if(v.selecionado)self.tamanho +=1;
     });
-    console.log($scope.);
+    if(self.tamanho > 1 || self.tamanho == 0){
+      $scope.editar = false;
+    }else{
+      $scope.editar = true;
+    }
+    if(self.tamanho > 0){
+      $scope.selecao = true;
+    }else{
+      $scope.selecao = false;
+    }
+    $(".modal").modal("hide");
   };
 
   $scope.aparececad = false;
@@ -59,17 +74,25 @@ app.controller("HdbCtrl", ["$scope","$http", function($scope, $http){
     delete $scope.cadastro;
   };
 
-  $scope.EditaRegistro = function(valor){
-    $scope.cadastro = valor;
-    this.cadastro = $scope.cadastro;
-    $scope.sistema = valor.sistema;
-    $scope.editar = !$scope.editar;
+  $scope.pageChanged = function(newPage) {
+      console.log(newPage+' '+'kk');
+    };
+
+  $scope.selecte = 14;
+  $scope.selector = [
+    "5","10","14","28"
+  ];
+
+  $scope.EditaRegistro = function(){
+    var self = this;
+    self.btneditar = !self.btneditar;
+    $scope.valoresfuncedit.filter(function(valor){
+      if(valor.selecionado){
+        $scope.cadastro = angular.copy(valor);
+      }
+    });
   };
 
-  $scope.set = function() {
-    $scope.widget = {casa: '323abc'};
-    this.widget.casa = $scope.widget.casa;
-}
-
   IndexaTabela();
+
 }]);
