@@ -12,7 +12,7 @@ let fs = require('fs');
 let app = express();
 mongoose.connect('mongodb://localhost/hdb', function(err){
   if (err){
-    console.log('Erro ao conectar no mongodb: ' + err);
+    console.error('Erro ao conectar no mongodb: ' + err);
   }
 });
 app.set('views', __dirname + '/views');

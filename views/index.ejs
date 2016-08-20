@@ -55,10 +55,8 @@
           </button>
         </form>
       </div>
-      <!---------- >
-      <!----------->
       <div class="col-lg-2 input_search">
-        <input type="text" class="form-control" ng-model="pesquisa" placeholder="Pesquisa">
+        <input type="text" class="form-control" ng-change="pesquisas()" ng-model="pesquisa" placeholder="Pesquisa">
       </div>
     </div>
   </div>
@@ -76,7 +74,7 @@
       </thead>
       <tbody>
         <tr ng-class="{marcador: valor.selecionado}" ng-click="TrMarcado(valores, valor)"
-        dir-paginate="valor in valores |filter: pesquisa |orderBy: ordernacao: reordenacao |itemsPerPage:selecte">
+        dir-paginate="valor in valores |orderBy: ordernacao: reordenacao |itemsPerPage:selecte" total-items="pagtotal">
           <td ng-bind="valor.autor"></td>
           <td ng-bind="valor.sistema"></td>
           <td ng-bind="valor.funcao"></td>
@@ -91,12 +89,11 @@
   <footer class="bg-primary footers">
     <div class="row">
       <div class="col-lg-1 col-lg-offset-4">
-        <select class="btn btn-sm btn-default pagseletor" ng-model="selecte">
-          <option ng-repeat="setor in selector" value="{{setor}}" ng-bind="setor"></option>
-        </select>
+        <select class="btn btn-sm btn-default pagseletor" ng-model="selecte"
+        ng-options="select.item as select.item for select in selector"></select>
       </div>
       <div class="col-lg-4">
-          <dir-pagination-controls max-size="5" on-page-change="pageChanged(newPageNumber)" boundary-links="true"></dir>
+          <dir-pagination-controls max-size="5" auto-hide="false" on-page-change="paginamuda(newPageNumber)" boundary-links="true"></dir>
       </div>
     </div>
   </footer>
