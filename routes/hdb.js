@@ -6,4 +6,7 @@ module.exports = function(app){
 	app.post('/excluir', hdb.excluir);
 	app.post('/indexpg', hdb.indexpg);
 	app.post('/pesquisas', hdb.pesquisas);
+	app.post('/altercad', hdb.altercad);
+	app.post('/login', hdb.loging);
+	app.get('/logout', hdb.logout);
 }

@@ -15,6 +15,12 @@ mongoose.connect('mongodb://localhost/hdb', function(err){
     console.error('Erro ao conectar no mongodb: ' + err);
   }
 });
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin","*");
+  res.header("Access-Control-Allow-Methods","get,post");
+  res.header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(compression());

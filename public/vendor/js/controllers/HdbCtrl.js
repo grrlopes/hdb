@@ -1,13 +1,20 @@
-app.controller("HdbCtrl", ["$scope","$http", function($scope, $http){
+app.controller("HdbCtrl", ["$scope", "HdbApi", function($scope, HdbApi){
   var IndexaTabela = function(item){
-    $http.get("http://localhost:8000/indexatabela?"+'item='+item).success(function(data, status){
+    $scope.permissao = false;
+    HdbApi.IndexaTabela(item).success(function(data, status){
       $scope.valores = data;
       data.filter(function(v){
         if(v.size){
           $scope.pagtotal = v.size;
+        }else if(v.validacesso == true || v.validacesso == false){
+          $scope.liberalogin = v.validacesso;
+        }else if(v.login){
+          $scope.perfil = v.login;
         }
       });
-      data.pop();
+      for(var i = 0; i <= 2; i++){
+        data.pop();
+      }
     });
   };
 
@@ -35,6 +42,7 @@ app.controller("HdbCtrl", ["$scope","$http", function($scope, $http){
     });
     if(self.tamanho > 1 || self.tamanho == 0){
       $scope.editar = false;
+      delete $scope.cadastro;
     }else{
       $scope.editar = true;
     }
@@ -43,7 +51,6 @@ app.controller("HdbCtrl", ["$scope","$http", function($scope, $http){
     }else{
       $scope.selecao = false;
     }
-    $(".modal").modal("hide");
   };
 
   $scope.aparececad = false;
@@ -53,9 +60,13 @@ app.controller("HdbCtrl", ["$scope","$http", function($scope, $http){
   };
 
   $scope.RemoveRegistro = function(valores){
+    if(!$scope.liberalogin){
+      $scope.permissao = !$scope.liberalogin
+      return false;
+    }
     $scope.valores = valores.filter(function(valor){
       if(valor.selecionado){
-        $http.post("http://localhost:8000/excluir", valor);
+        HdbApi.RemoveRegistro(valor);
       }
       if(!valor.selecionado){
         return valor;
@@ -67,13 +78,13 @@ app.controller("HdbCtrl", ["$scope","$http", function($scope, $http){
     var self = this;
     this.pesqvalid = true;
     this.pesquisa = $scope.pesquisa;
-    console.log(this.pesquisa, this.pesqvalid);
+    this.selecte = $scope.selecte;
     if(this.pesquisa == ''){
       this.pesqvalid = false;
-      IndexaTabela($scope.selecte);
+      IndexaTabela(this.selecte);
       return false;
     }
-    $http.post("http://localhost:8000/pesquisas",{pesq:this.pesquisa,pag:0,total:$scope.selecte}).success(function(data){
+    HdbApi.Pesquisas(this.pesquisa,this.selecte).success(function(data){
       data.filter(function(v){
         if(v.size){
           $scope.pagtotal = v.size;
@@ -81,9 +92,8 @@ app.controller("HdbCtrl", ["$scope","$http", function($scope, $http){
       });
       data.pop();
       $scope.valores = data;
-      console.log($scope.valores);
     });
-  }
+  };
 
   $scope.AdicionaRegistro = function(cadastro){
     $scope.data = new Date();
@@ -96,7 +106,7 @@ app.controller("HdbCtrl", ["$scope","$http", function($scope, $http){
     };
     $scope.add();
     $scope.valor.forEach(function(v){
-      $http.post("http://localhost:8000/cadastro", v);
+      HdbApi.AdicionaRegistro(v);
       $scope.valores.unshift(v);
     });
     delete $scope.cadastro;
@@ -110,16 +120,20 @@ app.controller("HdbCtrl", ["$scope","$http", function($scope, $http){
   $scope.paginamuda = function(pag){
     var self = this;
     this.pesquisa = $scope.pesquisa;
-    this.pag = ($scope.selecte*(pag-1));
+    this.selecte = $scope.selecte;
+    this.pag = (this.selecte*(pag-1));
     if($scope.pesquisa == undefined){
-      $http.post("http://localhost:8000/indexpg",{pag:this.pag,total:$scope.selecte}).success(function(data){
+      HdbApi.Paginamuda(this.pag,this.selecte).success(function(data){
         $scope.valores = data;
       });
     }else{
-      $http.post("http://localhost:8000/pesquisas",{pesq:this.pesquisa,pag:this.pag,total:$scope.selecte}).success(function(data){
+      HdbApi.PaginaPesquisa(this.pesquisa,this.pag,this.selecte).success(function(data){
         $scope.valores = data;
       });
     }
+    $scope.editar = false;
+    $scope.selecao = false;
+    delete $scope.cadastro;
   };
 
   $scope.EditaRegistro = function(){
@@ -131,5 +145,42 @@ app.controller("HdbCtrl", ["$scope","$http", function($scope, $http){
       }
     });
   };
+
+  $scope.liberalogin = false;
+  $scope.Logar = function(login){
+    var usuario = login.usuario;
+    var senha = login.senha;
+    HdbApi.Logar(usuario,senha).success(function(data){
+      if(data){
+        $scope.liberalogin = true;
+        $scope.perfil = usuario;
+      }else{
+        $scope.liberalogin = false;
+      }
+    });
+  };
+
+  $scope.AtualizaRegistro = function(cadastro){
+    if(cadastro._id == undefined) return false;
+    HdbApi.AtualizaRegistro(cadastro.sistema,cadastro.funcao,
+    cadastro.comando,cadastro._id);
+    $scope.permissao = !$scope.liberalogin;
+    if(!$scope.liberalogin) return false;
+    $scope.valores.filter(function(valor){
+      if(valor.selecionado){
+        valor.sistema = cadastro.sistema;
+        valor.funcao = cadastro.funcao;
+        valor.comando = cadastro.comando;
+      }
+      delete $scope.cadastro;
+    });
+  };
+
+  $scope.showModal = false;
+  $scope.toggleModal = function(valor){
+    $scope.showModal = !$scope.showModal;
+    $scope.modview = valor;
+  };
+
   IndexaTabela($scope.selecte);
 }]);

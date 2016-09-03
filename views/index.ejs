@@ -4,22 +4,23 @@
 <div ng-controller="HdbCtrl" class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
-      <nav class="navbar navbar-default">
-        <div class="navbar-header">
-          <a class="navbar-brand brand">HistoryDB</a>
-        </div>
-        <div class="collapse navbar-collapse bg-primary">
+      <nav class="navbar bg-primary">
+        <div class="col-lg-4 collapsee navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="dropdown">
               <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button"
-              aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+              aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span>
+              </a>
               <ul class="dropdown-menu">
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
+                <li><a href>Histórico</a></li>
               </ul>
             </li>
           </ul>
         </div>
+        <div class="col-lg-2 navbar-header navbar-collapse">
+          <a class="navbar-brand brand">HistoryDB</a>
+        </div>
+        <tpl-login visible="liberalogin"></tpl-login>
       </nav>
     </div>
   </div>
@@ -36,7 +37,7 @@
           <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remover
         </button>
       </div>
-      <div class="col-lg-7">
+      <div class="col-lg-7" ng-if="!permissao">
         <form class="form-inline form_inputs" name="FormCadastro" ng-show="aparececad && !selecao || editar">
           <div class="form-group">
             <input type="text" class="form-control" name="sistema" ng-model="cadastro.sistema" placeholder="Sistema" ng-required="true">
@@ -46,22 +47,24 @@
           </div>
           <div class="form-group">
             <input type="text" class="form-control" name="comando" ng-model="cadastro.comando" placeholder="Comando" ng-required="true">
+            <!--textarea rows="1" class="form-control cadtextarea" name="comando" ng-model="cadastro.comando" <textarea/-->
           </div>
           <button class="btn btn-default btn-sm btn-default active" ng-click="AdicionaRegistro(cadastro)" ng-if="aparececad" ng-disabled="FormCadastro.$invalid">
             <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Cadastrar
           </button>
-          <button class="btn btn-default btn-sm btn-default active" ng-click="AdicionaRegistro(cadastro)" ng-if="editar" ng-disabled="FormCadastro.$invalid">
-            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Editar
+          <button class="btn btn-default btn-sm btn-default active" ng-click="AtualizaRegistro(cadastro)" ng-if="editar" ng-disabled="FormCadastro.$invalid">
+            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Atualizar
           </button>
         </form>
       </div>
+      <tpl-loginacesso></tpl-Loginacesso>
       <div class="col-lg-2 input_search">
         <input type="text" class="form-control" ng-change="pesquisas()" ng-model="pesquisa" placeholder="Pesquisa">
       </div>
     </div>
   </div>
-  <div class="col-log-12 tabelamargem">
-    <table class="table table-bordered table-hover table-condensed">
+  <div class="tabelamargem">
+    <table class="table table-bordered table-condensed">
       <thead>
         <tr class="bg-primary">
           <th><a href ng-click="ordenar('nome')">Autor</th>
@@ -73,12 +76,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-class="{marcador: valor.selecionado}" ng-click="TrMarcado(valores, valor)"
+        <tr ng-class="{marcador: valor.selecionado}" ng-dblclick="toggleModal(valor)" ng-click="TrMarcado(valores, valor)"
         dir-paginate="valor in valores |orderBy: ordernacao: reordenacao |itemsPerPage:selecte" total-items="pagtotal">
           <td ng-bind="valor.autor"></td>
           <td ng-bind="valor.sistema"></td>
-          <td ng-bind="valor.funcao"></td>
-          <td ng-bind="valor.comando"></td>
+          <td tip-tips ng-bind="valor.funcao"></td>
+          <td tip-tips ng-bind="valor.comando"></td>
           <td ng-bind="valor.data | date: 'dd/MM/yyyy HH:MM'"></td>
           <td><input type="checkbox" ng-disabled="true" ng-model="valor.selecionado"
           ng-checked="valor.selecionado" ng-click="checkselecionado($event, valores)"/></td>
@@ -86,15 +89,26 @@
       </tbody>
     </table>
   </div>
-  <footer class="bg-primary footers">
-    <div class="row">
-      <div class="col-lg-1 col-lg-offset-4">
-        <select class="btn btn-sm btn-default pagseletor" ng-model="selecte"
-        ng-options="select.item as select.item for select in selector"></select>
+<tpl-footer></tpl-footer>
+<!--div class="container">
+  <button ng-click="toggleModal()" class="btn btn-default">teste</button-->
+  <modal title="Inspeção" visible="showModal">
+    <form role="form">
+      <div class="form-group">
+        <label for="sistema">Sistema</label>
+        <input type="text" class="form-control" ng-model="modview.sistema" disabled/>
       </div>
-      <div class="col-lg-4">
-          <dir-pagination-controls max-size="5" auto-hide="false" on-page-change="paginamuda(newPageNumber)" boundary-links="true"></dir>
+      <div class="form-group">
+        <label for="funcao">Função</label>
+        <input type="text" class="form-control" ng-model="modview.funcao" disabled/>
       </div>
-    </div>
-  </footer>
+      <div class="form-group">
+        <label for="comando">Comando</label>
+        <textarea rows="3" class="form-control modtextarea" ng-model="modview.comando" disabled><textarea/>
+      </div>
+    </form>
+  </modal>
+<!--/div-->
+
+<!------>
 </div>

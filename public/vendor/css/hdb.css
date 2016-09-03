@@ -40,7 +40,7 @@
 
 .brand {
   font-size: 22px;
-  margin-left: 600px;
+  margin-left: 450px;
   width: 300px;
   position: absolute;
   float: left;
@@ -61,6 +61,7 @@ td {
   font-size: 13px;
   padding: 3px 5px;
   text-align: center;
+  cursor: default;
 }
 
 th {
@@ -116,4 +117,45 @@ tr th:last-child {
 .footers {
   margin-top: 10px;
   height: 70px;
+}
+
+.modtextarea {
+  max-width: 568px;
+  max-height: 200px;
+}
+
+.cadtextarea {
+  max-height: 30px;
+  max-width: 100px;
+}
+
+.tooltip > .tooltip-inner {
+  max-width: 400px;
+  font-size: 13px;
+}
+
+.login_a {
+  width: 80px;
+  margin-left: 100px;
+}
+
+.login_div {
+  padding:15px;
+}
+
+.login_valid input {
+  width: 150px;
+  height: 35px;
+}
+
+.logout {
+  margin-left: auto;
+}
+
+.alert-texto {
+  padding: 0px;
+  margin-top: -17px;
+  margin-bottom: -2px;
+  cursor: default;
+  float: left;
 }
