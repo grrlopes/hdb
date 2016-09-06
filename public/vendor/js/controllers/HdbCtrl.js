@@ -33,6 +33,7 @@ app.controller("HdbCtrl", ["$scope", "HdbApi", function($scope, HdbApi){
   $scope.TrMarcado = function(valores,valor){
     $scope.funcedit = valor;
     $scope.valoresfuncedit = valores;
+    $scope.aparececad = false;
     $scope.selecionado = valor.selecionado = !valor.selecionado;
     var self = this;
     self.selecao = true;
@@ -95,26 +96,32 @@ app.controller("HdbCtrl", ["$scope", "HdbApi", function($scope, HdbApi){
     });
   };
 
-  $scope.AdicionaRegistro = function(cadastro){
+  $scope.AdicionaRegistro = function(cadastrar){
     $scope.data = new Date();
     $scope.valor = [];
+    $scope.permissao = !$scope.liberalogin;
+    if(!$scope.liberalogin)return false;
     $scope.add = function(){
       $scope.valor.push({
-        sistema: cadastro.sistema, funcao: cadastro.funcao,
-        comando: cadastro.comando, data: $scope.data
+        autor: $scope.perfil, sistema: cadastrar.sistema, funcao: cadastrar.funcao,
+        comando: cadastrar.comando, data: $scope.data
       });
     };
     $scope.add();
-    $scope.valor.forEach(function(v){
-      HdbApi.AdicionaRegistro(v);
-      $scope.valores.unshift(v);
+    $scope.valor.forEach(function(value){
+      HdbApi.AdicionaRegistro(value);
+      $scope.valores.unshift(value);
     });
-    delete $scope.cadastro;
+    $scope.cadastro = cadastrar;
+    var valor = Object.keys(cadastrar);
+    valor.forEach(function(value){
+      delete cadastrar[value];
+    });
   };
 
   $scope.selecte = 14;
   $scope.selector = [
-    {item:5},{item:10},{item:14},{item:28}
+    {item:5},{item:10},{item:14},{item:17},{item:28}
   ];
 
   $scope.paginamuda = function(pag){
@@ -137,8 +144,6 @@ app.controller("HdbCtrl", ["$scope", "HdbApi", function($scope, HdbApi){
   };
 
   $scope.EditaRegistro = function(){
-    var self = this;
-    self.btneditar = !self.btneditar;
     $scope.valoresfuncedit.filter(function(valor){
       if(valor.selecionado){
         $scope.cadastro = angular.copy(valor);

@@ -6,7 +6,6 @@ module.exports = function(app){
     index: function(req, res){
       res.render("index");
     },
-
     indexatabela: function(req, res){
       var size;
       comando.count(function(err, data){
@@ -43,12 +42,16 @@ module.exports = function(app){
 
     addcad: function(req, res){
 			var inserir = new comando(req.body);
-			inserir.save(function(err){
-				if(err){
-					console.error(err);
-				}
-				res.sendStatus(200);
-			});
+      if(req.session.login == undefined){
+        res.send(true);
+      }else{
+  			inserir.save(function(err){
+  				if(err){
+  					console.error(err);
+  				}
+  				res.sendStatus(200);
+  			});
+      }
 		},
 
     pesquisas: function(req, res, next){
@@ -84,17 +87,17 @@ module.exports = function(app){
           if(err){
             console.error(err);
           }else{
-              var atualiza	= data;
-              atualiza.sistema = req.body.sistema;
-              atualiza.funcao = req.body.funcao;
-              atualiza.comando = req.body.comando;
-              atualiza.save(function(err){
-                if(err){
-                  console.error(err);
-                }else{
-                  res.send(false);
-                }
-              });
+            var atualiza = data;
+            atualiza.sistema = req.body.sistema;
+            atualiza.funcao = req.body.funcao;
+            atualiza.comando = req.body.comando;
+            atualiza.save(function(err){
+              if(err){
+                console.error(err);
+              }else{
+                res.send(false);
+              }
+            });
           }
         });
       }
@@ -103,15 +106,15 @@ module.exports = function(app){
     loging: function(req, res, next){
 			var login=req.body.login,
 	    senha=req.body.senha;
-
-      if(login !== 'gabriel.lopes'){
+/*
+      if(login !== 'gabriel.lopesgabriel.lopes'){
         req.session.destroy();
         res.send(false);
       }else{
         req.session.login=login;
         res.send(true);
       }
-      /*
+*/
 			Basead.authenticate(login+'@indproj.com.br',
 			senha, function(err, auth){
 			  if(err){
@@ -121,7 +124,7 @@ module.exports = function(app){
 					req.session.login=login;
 					res.send(auth);
 				}
-			});  */
+			});
 		},
 
     excluir: function(req, res){

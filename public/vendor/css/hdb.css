@@ -3,7 +3,7 @@
   border-style: ridge;
   border-width: thin;
   border-color: #d6d6c2;
-  height: 460px;
+  height: 465px;
   overflow-y: auto;
 }
 
@@ -19,12 +19,13 @@
   margin-top: -15px;
 }
 
+/*
 .alturatabela {
   height: 500px;
   background: green;
   overflow-y: scroll;
 }
-
+*/
 .marcador {
   background-color: grey;
 }
@@ -150,6 +151,7 @@ tr th:last-child {
 
 .logout {
   margin-left: auto;
+  width: auto;
 }
 
 .alert-texto {
@@ -158,4 +160,105 @@ tr th:last-child {
   margin-bottom: -2px;
   cursor: default;
   float: left;
+}
+
+@media only screen and (max-width: 1024px){
+  .tabelamargem {
+    margin-top: 5px;
+    border-style: ridge;
+    border-width: thin;
+    border-color: #d6d6c2;
+    height: 547px;
+    overflow-y: auto;
+  }
+
+  .form_alteracao {
+    margin-top: -15px;
+  }
+
+  .form_inputs {
+    margin-top: -15px;
+  }
+
+  .input_search {
+    margin-top: -15px;
+  }
+
+  .input_cmd {
+    margin-top: 2px;
+  }
+
+  .brand {
+    font-size: 22px;
+    margin-left: 280px;
+    width: 300px;
+    position: absolute;
+    float: left;
+    font-style: italic;
+    opacity: 0.5;
+  }
+}
+
+@media only screen and (min-width: 1366px){
+  .tabelamargem {
+    margin-top: 5px;
+    border-style: ridge;
+    border-width: thin;
+    border-color: #d6d6c2;
+    height: 515px;
+    overflow-y: auto;
+  }
+}
+
+@media only screen and (width: 1366px){
+  .tabelamargem {
+    margin-top: 5px;
+    border-style: ridge;
+    border-width: thin;
+    border-color: #d6d6c2;
+    height: 580px;
+    overflow-y: auto;
+  }
+}
+
+@media only screen and (min-width: 1400px){
+  .tabelamargem {
+    margin-top: 5px;
+    border-style: ridge;
+    border-width: thin;
+    border-color: #d6d6c2;
+    height: 600px;
+    overflow-y: auto;
+  }
+
+  .brand {
+    font-size: 22px;
+    margin-left: 490px;
+    width: 300px;
+    position: absolute;
+    float: left;
+    font-style: italic;
+    opacity: 0.5;
+  }
+}
+
+@media only screen and (min-width: 1440px){
+  .tabelamargem {
+    margin-top: 5px;
+    border-style: ridge;
+    border-width: thin;
+    border-color: #d6d6c2;
+    height: 648px;
+    overflow-y: auto;
+  }
+
+  .brand {
+    font-size: 22px;
+    margin-left: 490px;
+    width: 300px;
+    position: absolute;
+    float: left;
+    font-style: italic;
+    opacity: 0.5;
+  }
 }
