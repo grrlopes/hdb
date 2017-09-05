@@ -1,0 +1,45 @@
+#!/usr/bin/env node
+var app = require('../app');
+var debug = require('debug');
+var porta = portaservidor(process.env.PORTA || '8001');
+app.set('porta', porta);
+app.listen(porta);
+app.on('error', erro);
+app.on('escutando', escuta);
+function portaservidor(val){
+  var porta = parseInt(val, 10);
+  if (isNaN(porta)){
+    return val;
+  } 
+  if (porta >= 0){
+    return porta;
+  }
+  return false;
+}
+function erro(error){
+  if (error.syscall !== 'listen'){
+    throw error;
+  }
+  var bind = typeof porta === 'string'
+    ? 'Pipe ' + porta
+    : 'Porta ' + porta;
+  switch (error.code){
+    case 'EACCES':
+      console.error(bind + 'sem provilegios');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' está em uso!!!');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+function escuta(){
+  var addr = app.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'porta ' + addr.porta;
+  debug('Escutando na ' + bind);
+}
